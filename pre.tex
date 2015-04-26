@@ -26,12 +26,17 @@
 \renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
 \renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}% Меняем везде перечисления на цифра.цифра
 
-\usepackage{newtxmath}
+%\usepackage{newtxmath}
 
 \usepackage{csquotes}
 
+\usepackage{enumitem}
+
 %TODO: не работает \emph
 %\DeclareTextFontCommand{\emph}{\textit}
+
+\def\Z{\mathcal{Z}}
+
 
 \begin{document}
 	\setcounter{page}{2}
