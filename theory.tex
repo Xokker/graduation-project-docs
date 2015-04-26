@@ -1,5 +1,5 @@
 \chapter{Теоретические основы}
-\label{chapter:first}
+\label{chapter:theory}
 
 %TODO: указать какие задачи еще существуют
 Хотя существует множество задач в сфере выявления предпочтений, в данной работе мы рассматриваем проблему ранжирования. Данная глава посвящена теоретическим основам задачи упорядочивания. Тем не менее, от читателя ожидается знание основ теории множеств и анализа формальных понятий (FCA, Formal Concept Analysis). Большая часть материала данной главы основана на \enquote{Введении} из сборника \textit{Preference Learning} Фюрнкранца и Хюллермайера\cite{plbook:Introduction:2010}.
@@ -56,6 +56,63 @@
 		Очевидно, что описанные подходы не являются взаимоисключающими. Алгоритм выявления предпочтений \enquote{при прочих равных} является примером смешения подходов. С одной стороны, Алгоритм имеет дело с бинарными отношениями и подходит к типу ''выявления зависимостей''. С другой стороны, он работает с отношениями \enquote{при прочих равных}, что накладывает определенные ограничения на результирующую модель. Следовательно, Алгоритм так же может быть отнесен к обучению, ''основанному на модели''.
 	
 	
-\section{Алгоритм выявления предпочтений \\ \enquote{при прочих равных}}
+\section{Алгоритм выявления предпочтений \enquote{при прочих равных}}
 
-	Много текста разного
+	Данный раздел основан на работе Объедкова \cite{Obiedkov:2013}, в которой представлен Алгоритм. Данный раздел состоит из двух секций: в первом представлен пример входных данных и описан ожидаемый результат работы Алгоритма, во втором представлено формальное определение Алгоритма.
+	
+	\subsection{Пример}
+		На рис. \ref{fig:pcxt} представлен пример контекста предпочтений. Объекты $c_1, \dots, c_5$ представляют машины, у каждой из которых есть свой набор признаков. Например, $c_2$ является белым внедорожником с темным интерьером. Диаграмма на правой стороне показывает отношение предпочтений какого-то пользователя: $c_1$ не хуже, чем $c_2$ и $c_3$; $c_5$ не хуже, чем $c_1$; $c_2$ и $c_3$ несравнимы; и так далее. 
+		\begin{figure}
+			\begin{center} 
+				\cars \prefs
+				\caption{\it Пример контекста предпочтений \cite[Рис.~1.1]{Obiedkov:2013}}
+				\label{fig:pcxt}	
+			\end{center} 
+		\end{figure} 
+		
+		Задача алгоритма предсказать отношения предпочтения при добавлении нового объекта в контекст. В рассматриваемом примере в контекст может быть добавлен красный миниван с ярким интерьером, и Алгоритм должен выявить отношения предпочтения для добавленной машины, попарно сравнив её с $c_1, \dots, c_5$. 
+	
+	\subsection{Описание алгоритма}
+	%TODO: дописать
+		Алгоритм \ref{algo:prediction} является реализацией алгоритма выявления предпочтений \enquote{при прочих равных}, написанной на псевдокоде. На шестой строке алгоритм вызывает подпрограмму, задача который убедиться, что никаие пары контекста не противоречат данному отношению.
+		
+		\begin{algorithm}
+			\caption{\algname{Predict Preference}$(A, B, \PP)$ \cite[Alg.~1]{Obiedkov:2013}}
+			\label{algo:prediction}
+			\begin{algorithmic}[1]
+				\REQUIRE Object intents $A, B \subseteq M$ and a preference context $\PP = (G, M, I, \leq)$.
+				\ENSURE \TRUE, if $\PP$ supports $\DEF$ for some $D \subseteq A, E \subseteq B,$ and $F \subseteq M$ such that $F \cap A = F \cap B$; \FALSE, otherwise.
+				\item[]
+				\FORALL{$g \in G$}
+				\STATE $D := A \cap g'$
+				\FORALL{$h \in G \setminus \{g\}$ such that $g \leq h$}
+				\STATE $E := B \cap h'$
+				\STATE $F := (M \setminus (A \vartriangle B)) \cap (M \setminus (g' \vartriangle h'))$
+				\IF{$\PP \models \DEF$}
+				\RETURN \TRUE
+				\ENDIF
+				\ENDFOR
+				\ENDFOR
+				\RETURN \FALSE
+			\end{algorithmic}
+		\end{algorithm}
+		\begin{algorithm}
+			\caption{\algname{Check Preference}$(\DEF, \PP)$ \cite[Alg.~2]{Obiedkov:2013}}
+			\label{algo:check}
+			\begin{algorithmic}
+				\REQUIRE A ceteris paribus preference $\DEF$ over $M$ and a preference context $\PP = (G, M, I, \leq)$.%; assume that attribute extents, $m'$ for $m \in M$, are precomputed.
+				\ENSURE \TRUE, if $\PP \models \DEF$; \FALSE, otherwise.
+				\STATE
+				\STATE $X := \bigcap_{m \in D}m'$
+				\STATE $Y := \bigcap_{m \in E}m'$
+				\FORALL{$g \in X$}
+				\FORALL{$h \in Y$}
+				\IF {$g \not\leq h$ and $g' \cap {F} = h' \cap {F}$}
+				\RETURN \FALSE
+				\ENDIF
+				\ENDFOR
+				\ENDFOR
+				\RETURN \TRUE
+			\end{algorithmic}
+		\end{algorithm}
+		
