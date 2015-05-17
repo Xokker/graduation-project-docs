@@ -107,6 +107,17 @@
 
 \def\Z{\mathcal{Z}}
 
+\makeatletter
+\def\@makechapterhead#1{%
+	\vspace*{50\p@}%
+	{\parindent \z@ \raggedright \normalfont
+		\interlinepenalty\@M
+		\Huge\bfseries  \thechapter.\enskip #1\par\nobreak
+		\vskip 40\p@
+	}}
+\makeatother
+	
+
 \setlength\parindent{1.25cm}
 
 \begin{document}
@@ -116,7 +127,7 @@
 	\input{introduction}
 	\input{literature}
 	\input{theory}
-	%\input{experiments}
+	\input{experiments}
 	
 	\bibliography{bibliography} 
 	\addcontentsline{toc}{chapter}{Литература}
