@@ -1,0 +1,122 @@
+\documentclass[a4paper,12pt]{report} %размер бумаги устанавливаем А4, шрифт 12пунктов
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float} %подключаем нужные пакеты расширений
+\usepackage[dvips]{graphicx} %хотим вставлять в диплом рисунки?
+\graphicspath{{images/}}%путь к рисункам
+
+\usepackage{setspace}
+\onehalfspacing
+
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.} % Заменяем библиографию с квадратных скобок на точку:
+\makeatother
+
+\usepackage{geometry} % Меняем поля страницы
+\geometry{left=3cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=2cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
+\renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\theenumii}{.\arabic{enumii}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}% Меняем везде перечисления на цифра.цифра
+
+%\usepackage{newtxmath}
+
+\usepackage{csquotes}
+
+\usepackage{enumitem}
+
+\usepackage[noend]{algorithmic}
+\usepackage{algorithm}
+
+\newcommand{\algname}[1]{\textsc{#1}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmicprint}{\textbf{output}}
+\renewcommand{\algorithmiccomment}[1]{\hspace*{\fill}\{#1\}}
+
+\algsetup{indent=2em}
+
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}
+
+\usepackage{fca}
+
+\usepackage{pdfpages}
+
+\def\cars{
+	\begin{cxt}
+		\atr{миниван}\atr{внедорожник}\atr{красный экстерьер}\atr{белый экстерьер}\atr{светлый интерьер}\atr{темный интерьер}
+		\obj{x..x.x}{$c_1$}
+		\obj{.x.x.x}{$c_2$}
+		\obj{x..xx.}{$c_3$}
+		\obj{.xx..x}{$c_4$}
+		\obj{x.x..x}{$c_5$}
+	\end{cxt}\hspace{5mm}
+}
+
+\def\prefs{
+	{\unitlength 1mm
+		\begin{diagram}{20}{30}
+			\Node{1}{10}{10}    
+			\Node{2}{0}{0}   
+			\Node{3}{20}{0}
+			\Node{4}{10}{-10}    
+			\Node{5}{10}{20}    
+			\Edge{1}{2}
+			\Edge{1}{3}
+			\Edge{2}{4}    
+			\Edge{3}{4}    
+			\Edge{1}{5}
+			\centerObjbox{1}{0}{3}{$c_1$}
+			\centerObjbox{2}{0}{3}{$c_2$}
+			\centerObjbox{3}{0}{3}{$c_3$}
+			\centerObjbox{4}{0}{3}{$c_4$}
+			\centerAttbox{5}{0}{3}{$c_5$}
+		\end{diagram}
+	}
+}
+
+\def\cp#1{\preccurlyeq_{#1}}
+
+\def\PP{\mathbb{P}}
+\def\UCPP{\context^\PP_{\sim}}
+\def\mpref{\leq}
+\def\cprime{^{\sim}}
+
+\def\ABC{A \cp{C} B}
+\def\DEF{D \cp{F} E}
+
+\def\minivan{\textrm{minivan}}
+\def\suv{\textrm{SUV}}
+\def\red{\textrm{red}}
+\def\white{\textrm{white}}
+\def\bright{\textrm{bright}}
+\def\price{\textrm{price}}
+\def\dark{\textrm{dark}}
+
+\def\Z{\mathcal{Z}}
+
+\setlength\parindent{1.25cm}
+
+\begin{document}
+	%\setcounter{page}{2}
+	\includepdf[pages={1}]{title.pdf}
+	\tableofcontents 
+	\input{introduction}
+	\input{literature}
+	\input{theory}
+	%\input{experiments}
+	
+	\bibliography{bibliography} 
+	\addcontentsline{toc}{chapter}{Литература}
+	\bibliographystyle{ieeetr}
+\end{document}

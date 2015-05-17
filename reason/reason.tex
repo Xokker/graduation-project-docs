@@ -1,0 +1,55 @@
+\documentclass[a4paper,12pt]{report} %размер бумаги устанавливаем А4, шрифт 12пунктов
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float} %подключаем нужные пакеты расширений
+\usepackage[dvips]{graphicx} %хотим вставлять в диплом рисунки?
+\graphicspath{{images/}}%путь к рисункам
+
+\usepackage{setspace}
+\onehalfspacing
+
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.} % Заменяем библиографию с квадратных скобок на точку:
+\makeatother
+
+\usepackage{geometry} % Меняем поля страницы
+\geometry{left=3cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=2cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
+\renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\theenumii}{.\arabic{enumii}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\theenumiii}{.\arabic{enumiii}}% Меняем везде перечисления на цифра.цифра
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}% Меняем везде перечисления на цифра.цифра
+
+%\usepackage{newtxmath}
+
+\usepackage{csquotes}
+
+\usepackage{enumitem}
+
+\usepackage[noend]{algorithmic}
+\usepackage{algorithm}
+
+\newcommand{\algname}[1]{\textsc{#1}}
+
+\setlength\parindent{1.25cm}
+
+\begin{document}
+	\input{title}% это титульный лист
+	\setcounter{page}{2}
+	\tableofcontents 
+	\input{basis}
+	\input{description}
+	\input{situatuation}
+	\input{goals}
+	\input{economics}
+	
+	\bibliography{bibliography} 
+	\addcontentsline{toc}{chapter}{Литература}
+	\bibliographystyle{ieeetr}
+\end{document}
