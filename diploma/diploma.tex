@@ -54,6 +54,8 @@
 
 \usepackage{pdfpages}
 
+\addto\captionsrussian{\renewcommand{\bibname}{Список использованных источников}}
+
 \def\cars{
 	\begin{cxt}
 		\atr{миниван}\atr{внедорожник}\atr{красный экстерьер}\atr{белый экстерьер}\atr{светлый интерьер}\atr{темный интерьер}
@@ -128,8 +130,7 @@
 	\input{literature}
 	\input{theory}
 	\input{experiments}
-	
 	\bibliography{bibliography} 
-	\addcontentsline{toc}{chapter}{Литература}
+	\addcontentsline{toc}{chapter}{Список использованных источников}
 	\bibliographystyle{ieeetr}
 \end{document}
