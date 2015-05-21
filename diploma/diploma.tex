@@ -118,7 +118,14 @@
 		\vskip 40\p@
 	}}
 \makeatother
-	
+
+\def\itemrange#1{%
+	\addtocounter{enumi}{1}%
+	\edef\labelenumi{\theenumi--\noexpand\theenumi}%
+	\addtocounter{enumi}{-1}%
+	\addtocounter{enumi}{#1}%
+	\item
+	\def\labelenumi{\theenumi.}}	
 
 \setlength\parindent{1.25cm}
 
