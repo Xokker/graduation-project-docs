@@ -30,6 +30,13 @@
 
 \usepackage{csquotes}
 
+\usepackage{caption}
+\DeclareCaptionLabelSeparator{par}{\par}
+\newcommand\tablecaption[1]{
+	\captionsetup{labelsep=par,justification=raggedleft}
+	\caption{#1}
+}
+
 \usepackage{bm}
 
 \usepackage{enumitem}

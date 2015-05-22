@@ -80,9 +80,49 @@
 		\end{enumerate}
 		
 \section{Рассматриваемые алгоритмы}
+	
+	Как описано в Введении, первоочередная задача данной работы – сравнение Алгоритма \ref{algo:prediction} с другими методами машинного обучения. В сравнении участвуют методы классифицирующих деревьев, а так же Байесовские методы. В разделах \ref{subsec:c4.5} -- \ref{subsec:bayes_net} подробно описаны эти алгоритмы.
+	
+	\subsection{C4.5}
+	\label{subsec:c4.5}
+	
+	\subsection{Наивный Байесовский классификатор}
+	\label{subsec:naive_bayes}
+	
+	\subsection{Байесовская сеть}
+	\label{subsec:bayes_net}
 
 \section{Проведение экспериментов}
+	При проведении экспериментов использовался метод перекресной проверки ($k$-fold cross-validation)\cite{Hastie:2001}. В одной половине экспериментов исходные данные делились на $n$ частей, где $n$ – количество объектов; в другой половине частей было $\frac{n}{2}$, то есть на каждом шаге тестирующий набор данных состоял из двух элементов. В разделах \ref{subsec:exp_cars} -- \ref{subsec:exp_sushi} подробно описаны проведенные эксперименты, а так же представлены их результаты.
+	
+	\subsection{Автомобили}
+	\label{subsec:exp_cars}
+		Результаты в \ref{tbl:cars_results}.
+	
+	\begin{table}[hb]
+		\centering
+		\tablecaption{Результаты экспериментов}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			Метод   & 1-out accuracy \% & 2-out accuracy \% \rule{0pt}{2.4ex} \\
+			\hline  
+			CPe & $84.52 \pm 8.7$ & $82.97 \pm 10.74$ \rule{0pt}{2.4ex} \\ 
+			CPo & $65.73 \pm 4.15$ & $60.9 \pm 4.56$ \\
+			CPoe & $69.98 \pm 5.07$ & $62.11 \pm 4.66$ \\ 
+			C4.5 unpaired & $80.44 \pm 7.82$ & $71.61 \pm 8.97$ \\ 
+			C4.5 paired  & $83.35 \pm 8.74$ & $77.53 \pm 10.48$ \\ 
+			C4.5 paired with numeric & $86.79 \pm 6.83$ & $84.27 \pm 9.15$ \\
+			Naive Bayes  & $83.76 \pm 7.2$ & $82.69 \pm 9.68$ \\ 
+			Bayes Net  & $83.6 \pm 6.98$ & $82.26 \pm 10.31$ \\ 
+			\hline
+		\end{tabular}
+		\label{tbl:cars_results}
+	\end{table}
+	
+	\subsection{Суши} 
+	\label{subsec:exp_sushi}
 
-$k$-fold cross-validation
+Используя терминологию Стивенса из \cite{Stevens:1951}, мы используем...
 
-%\section{Результаты}
+\section{Реализация}
+	Написано на Java 8. Используется Weka. Еще используется Apache Commons Math.
