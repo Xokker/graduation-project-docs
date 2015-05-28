@@ -174,9 +174,10 @@
 		Пример такого контекста представлен на Рис. \ref{fig:pcxt}.
 		
 		\begin{definition}
-			Множество признаков $B \subseteq M$ \emph{предпочитается \enquote{при прочих равных}} множеству признаков $A \subseteq M$ по отношению ко множеству признаков $C \subseteq M$ в контексте предпочтений $\PP = (G, M, I, \leq)$ если 
+		\label{def:ceteris_paribus}
+			Множество признаков $D \subseteq M$ \emph{предпочитается \enquote{при прочих равных}} множеству признаков $E \subseteq M$ по отношению ко множеству признаков $F \subseteq M$ в контексте предпочтений $\PP = (G, M, I, \leq)$ если 
 			\begin{equation}
-			\forall g \in A' \quad \forall h \in B' \quad (\{g\}' \cap C = \{h\}' \cap C \, \implies \, g \leq h).
+			\forall g \in D' \quad \forall h \in E' \quad (\{g\}' \cap F = \{h\}' \cap F \, \implies \, g \leq h).
 			\end{equation}
 			
 			В таком случае мы говорим что предпочтение \emph{при прочих равных} $A \cp{C} B$ является \emph{валидным} или \emph{имеет место} в $\PP$ и обозначаем это как $\PP \models \ABC$.
