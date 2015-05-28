@@ -22,7 +22,7 @@
 		Отношение $\leq$ называется \emph{предпорядком} (или квазипорядком) на множестве $S$, если оно удовлетворяет следующим условиям\cite{harel:2000}:
 		\begin{itemize}[itemsep=-1.5mm]
 			\item Рефлексивность: $a \leq a \quad \forall a \in S$
-			\item Транзитивность: $a \leq b\: \wedge\: b \leq c \implies a \leq c$ 
+			\item Транзитивность: $(a \leq b)\: \wedge\: (b \leq c) \implies a \leq c$ 
 		\end{itemize}
 	\end{definition}	
 	\begin{definition}
@@ -167,6 +167,7 @@
 		где $A'$ – это набор признаков, которые есть у всех объектов множества $A$, а $B'$  –- набор объектов, каждый из которых содержит все признаки множества $B$. Пусть $g \in G$ и $m \in M$, тогда множества $\{g\}'$ и $\{m\}'$ называются \emph{содержание объекта} (object intent) и \emph{объем признака} (attribute extent), соответственно. Иногда их обозначают как $g'$ и $m'$.
 		
 		\begin{definition}
+		\label{def:preference_context}
 			\emph{Контекст предпочтений} $\PP = (G, M, I, \leq)$ – это формальный контекст $(G, M, I)$ с рефлексивным и транзитивным отношением предпочтения $\leq$, определенным над $G$ (то есть, $\leq$ – предпорядок). Мы пишем $g < h$, если $g \leq h$ и $h \not\leq g$.
 		\end{definition}
 		
