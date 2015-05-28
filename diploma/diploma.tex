@@ -37,6 +37,8 @@
 	\caption{#1}
 }
 
+\usepackage{lastpage}
+
 \usepackage{bm}
 
 \usepackage{enumitem}
@@ -146,14 +148,15 @@
 \makeatother
 
 \begin{document}
-	\setcounter{page}{2}
-	%\includepdf[pages={1}]{title.pdf}
+	%\setcounter{page}{2}
+	\includepdf[pages={1}]{title.pdf}
 	\tableofcontents 
+	\input{abstract}
+	\input{definitions}
 	\input{introduction}
 	\input{literature}
 	\input{theory}
 	\input{experiments}
-	\input{modification}
 	\input{ending}
 	\bibliography{bibliography} 
 	\addcontentsline{toc}{chapter}{Список использованных источников}
