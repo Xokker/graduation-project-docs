@@ -130,15 +130,58 @@
 		\end{algorithmic}
 	\end{algorithm}
 	
-	Вторая модификация Алгоритма~\ref{algo:prediction} основана на поиске максимальной поддержки для фиксированных $DFE$. Для пары объектов $(o_j, o_i)$ находятся все тройки $DFE_{(i,j)}$, поддерживающие $o_j \leq o_i$, а так же все тройки $DFE_{(j,i)}$, поддерживающие $o_i \leq o_j$. Затем для каждой тройки считается максимальная поддержка. Процесс аналогичен Алгоритму~\ref{algo:CPe}, за исключением того, что строка~8 выполняется лишь для тех $D$, $F$ и $E$, которые совпадают с фиксированными $DFE$. Таким образом, предсказание предпочтения основано на следующей формуле:
+	Вторая модификация Алгоритма основана на поиске максимальной поддержки для фиксированных $DFE$. Данная модификация меняет Алгоритмы \ref{algo:prediction} и \ref{algo:check} так, что после нахождения $DFE$ проверяется не просто выполнение  $\DEF$ в $\PP$, но считается количество пар $(g,h)$, которые ``подтверждают'' предпочтение $\DEF$. Алгоритмы \ref{algo:prediction_dfe} и \ref{algo:check_dfe} реализуют описанный подход и являются модификациями Алг. \ref{algo:prediction} и \ref{algo:check}, соответственно.
 	
-	\begin{equation}
-	\label{eq:CPo}
-		\max_{t\, \in DFE_{(i,j)}}\#(g,h) \: - \max_{t\, \in DFE_{(j,i)}}\#(g,h)
-	\end{equation}
-	где $t$ – одна из троек $DFE$, которая поддерживает $o_j \leq o_i$ или $o_i \leq o_j$\\
-	$\#(g,h)$ – количество различных пар $(g,h)$.\\
-	Если результат \ref{eq:CPo} положителен, значит $o_i \leq o_j$; если отрицателен, то $o_j \leq o_i$; иначе альтернативы равнозначны. Данная модификация алгоритма обозначается \emph{CPfs} (Ceteris Paribus with Fixed Support).
+	\begin{algorithm}
+		\caption{\algname{Предсказание предпочтения}$(A, B, \PP)$ (основан на Алг.~\ref{algo:prediction})}
+		\label{algo:prediction_dfe}
+		\begin{algorithmic}[1]
+			\REQUIRE Содержания объектов $A, B \subseteq M$ и контекст предпочтений $\PP = (G, M, I, \leq)$.
+			\ENSURE $\mathbf{c}$, где $c$ является максимальным возможным количеством пар объектов, которые поддерживают некое $\PP \models \DEF$  $\mathbf{0}$, иначе.
+			\item[]
+			\STATE $c_{\text{max}} := 0$
+			\FORALL{$g \in G$}
+			\STATE $D := A \cap g'$
+			\FORALL{$h \in G \setminus \{g\}$ таких, что $g \leq h$}
+			\STATE $E := B \cap h'$
+			\STATE $F := (M \setminus (A \vartriangle B)) \cap (M \setminus (g' \vartriangle h'))$
+			\STATE $c := \PP \models \DEF$
+			\IF{$c > c_{\text{max}}$}
+			\STATE $c_{\text{max}} := c$
+			\ENDIF
+			\ENDFOR
+			\ENDFOR
+			\RETURN $c_{\text{max}}$
+		\end{algorithmic}
+	\end{algorithm}
+
+	\begin{algorithm}
+		\caption{\algname{Проверить предпочтение}$(\DEF, \PP)$ (основано на Алг.~\ref{algo:check})}
+		\label{algo:check_dfe}
+		\begin{algorithmic}[1]
+			\REQUIRE Предпочтение $\DEF$ над $M$ и контекст предпочтений $\PP = (G, M, I, \leq)$
+			\ENSURE $\mathbf{c}$, где $c$ – количество пар, поддерживающих $\PP \models \DEF$; $\mathbf{0}$, если нашлась пара, опровергающая $\PP \models \DEF$.
+			\item[]
+			\STATE $c := 0$
+			\STATE $X := \bigcap_{m \in D}m'$
+			\STATE $Y := \bigcap_{m \in E}m'$
+			\FORALL{$g \in X$}
+			\FORALL{$h \in Y$}
+			\IF {$g' \cap {F} = h' \cap {F}$}
+			\IF {$g \not\leq h$}
+			\RETURN $\mathbf{0}$
+			\ELSE 
+			\STATE $c := c + 1$
+			\ENDIF
+			\ENDIF
+			\ENDFOR
+			\ENDFOR
+			\RETURN $c$
+		\end{algorithmic}
+	\end{algorithm}
+	
+	\noindent Пусть $c_{lr}$ – результат выполнения Алг.~\ref{algo:prediction_dfe} для пары объектов $(o_l, o_r)$, и $c_{rl}$ – результат для пары $(o_r, o_l)$.
+	Если результат $c_{lr} - c_{rl}$ положителен, значит $o_i \leq o_j$; если отрицателен, то $o_j \leq o_i$; иначе альтернативы равнозначны. Данная модификация алгоритма обозначается \emph{CPfs} (Ceteris Paribus with Fixed Support).
 	
 	Третья модификация Алгоритма является смешением двух вышеописанных подходов. В случае, если результат \ref{eq:CPo} равен нолю, срабатывает подход, основанный на расчете поддержки (см. Алгоритм~\ref{algo:CPe}). Эта модификация обозначается как \emph{CPm} (Ceteris Paribus Mixed).
 	
