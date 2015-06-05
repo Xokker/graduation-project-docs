@@ -19,6 +19,9 @@
 \geometry{top=2cm}% верхнее поле
 \geometry{bottom=2cm}% нижнее поле
 
+\usepackage[table]{xcolor}
+\definecolor{lightgray}{gray}{0.9}
+
 \renewcommand{\theenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
 \renewcommand{\labelenumi}{\arabic{enumi}}% Меняем везде перечисления на цифра.цифра
 \renewcommand{\theenumii}{.\arabic{enumii}}% Меняем везде перечисления на цифра.цифра
@@ -148,6 +151,9 @@
 \makeatother
 
 \usepackage{hyperref}
+
+\widowpenalty10000
+\clubpenalty10000
 
 \begin{document}
 	%\setcounter{page}{2}

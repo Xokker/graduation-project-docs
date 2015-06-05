@@ -59,7 +59,7 @@
 			В таком случае мы говорим, что предпочтение \emph{при прочих равных} $A \cp{C} B$ является \emph{валидным} или \emph{имеет место} в $\PP$ и обозначаем это как $\PP \models \ABC$.
 		\end{definition}
 	
-	\subsection{Описание алгоритма}
+	\subsection{Описание Алгоритма}
 	\label{subsec:cp_description}
 		Задача Алгоритма~\ref{algo:prediction} – предугадать отношение между двумя объектами $a$ и $b$, которые выражены множествами признаков $A$ и $B$ ($a' = A$ и $b' = B$). Для этого алгоритм в контексте $\PP$ находит пару объектов $(g, h)$, которая на основе ряда признаков позволяет сделать вывод о том, что $a \leq b$. В случае, если такая пара не найдена, алгоритм должен вернуть значение ``ложь'', что означает $a \nleq b$. Чтобы найти объекты $g$ и $h$ алгоритм ищет тройку, состоящую из множеств $D$, $F$ и $E$, имеющую следующие признаки:
 		\begin{itemize}
@@ -124,12 +124,16 @@
 	
 	\begin{definition}
 		\label{def:multivalued_context}
-		\emph{Многозначный (формальный) контекст} – это кортеж $\context^* = (G, M^*, V, J)$, где $G$ называется множеством объектов, $M^*$ – множество признаков, $V$ – множество \emph{значений}, а J является тернарным отношением ${I \subseteq G \times M^* \times V}$, содержащим тройки $(g\:m\:v)$. $(g\:m\:v)$ интерпретируется как ``значение признака $m$ объекта $g$ равно $v$''. 
+		\emph{Многозначный (формальный) контекст} – это кортеж $\context^* = (G, M^*, V, J)$, где $G$ называется множеством объектов, $M^*$ – множество признаков, $V$ – множество \emph{значений}, а J является тернарным отношением ${J \subseteq G \times M^* \times V}$, содержащим тройки $(g,m,v)$. $(g,m,v)$ интерпретируется как ``значение признака $m$ объекта $g$ равно $v$''. 
+		%При это должно выполняться:
+		%\begin{equation}
+		%\label{eq:gmv}
+	%		(g, m, w) \in J \: \wedge \: (g, m, v) \in J \implies w = v
+	%	\end{equation}
+	%	где условие \eqref{eq:gmv} утверждает, что у данных объекта и признака может быть единственное значение (например, автомобиль не может быть одновременно и с двигателем 2.5L, и с 5.5L).
 	\end{definition}
 	
 	Контекст предпочтений, основанный на $\context^*$ (\emph{многозначный контекст предпочтений}), будем обозначать $\PP^*$. Аналогично опр.~\ref{def:preference_context}, $\PP^* = (G, M^*, V, J, \leq)$.
-	
-	Обозначим $\mathbb{A} = \{A_1, A_2, \dots, A_n\}$ множество всех категориальных многозначных признаков, а $\mathbb{C} = \{C_1, C_2, \dots, C_m\}$ множество всех числовых признаков. Тогда $M^* = \mathbb{A} \cup \mathbb{C}$.
 	
 	Нами вводятся 3 типа предикатов, а так же множества, состоящие из представленных предикатов:
 	\begin{subequations} %TODO: merge condition
@@ -152,11 +156,11 @@
 		P_m = \{p^=_m, p^<_m, p^>_m\} \\
 		%
 		\label{eq:all_predicates}
-		\mathbb{P} = \bigcup_{m \in M^*}P_m
+		P_{all} = \bigcup_{m \in M^*}P_m
 		\end{gather}
 	\end{subequations}
 	где $P_m$ содержит все предикаты для признака $m$, \\
-	$\mathbb{P}$ содержит все предикаты для всех признаков.\\
+	$P_{all}$ содержит все предикаты для всех признаков.\\
 	В дальнейшем введенные предикаты используются для попарного выявления отношений между признаками двух объектов.\\
 	Обозначим через $\mathtt{v}_m(g)$ функцию, которая показывает значение признака $m$ объекта $g$:
 	\begin{equation}
@@ -177,16 +181,16 @@
 		\label{algo:prediction_multi}
 		\begin{algorithmic}[1]
 			\REQUIRE Содержания объектов $A, B \subseteq M^* \times V$ и контекст предпочтений $\PP^* = (G, M^*, V, J, \leq)$.
-			\ENSURE \TRUE, если $\PP^*$ поддерживает $\DEF$ для некоторого $D \subseteq A, E \subseteq B,$ и $F \subseteq \mathbb{P}$ таких, что $F \cap A = F \cap B$; \FALSE, иначе.
+			\ENSURE \TRUE, если $\PP^*$ поддерживает $\DEF$ для некоторого $D \subseteq A, E \subseteq B,$ и $F \subseteq P_{all}$ таких, что $F \cap A = F \cap B$; \FALSE, иначе.
 			\item[]
 			\FORALL{$g \in G$}
 			\STATE $D := A \cap g'$
 			\FORALL{$h \in G \setminus \{g\}$ таких, что $g \leq h$}
 			\STATE $E := B \cap h'$
-			\STATE $F_{ab} := \{p\;|\;p \in \mathbb{P} \wedge p\,(A', B')\}$
-			\STATE $F_{gh} := \{p\;|\;p \in \mathbb{P} \wedge p\,(g, h)\}$
+			\STATE $F_{ab} := \{p\;|\;p \in P_{all} \wedge p\,(A', B')\}$
+			\STATE $F_{gh} := \{p\;|\;p \in P_{all} \wedge p\,(g, h)\}$
 			\STATE $F := F_{ab} \cap F_{gh}$
-			\IF{$\PP \models \DEF$}
+			\IF{$\PP^* \models \DEF$}
 			\RETURN \TRUE
 			\ENDIF
 			\ENDFOR
@@ -206,7 +210,7 @@
 			\STATE $Y := \bigcap_{m \in E}m'$
 			\FORALL{$g \in X$}
 			\FORALL{$h \in Y$}
-			\IF {$g \not\leq h$ \AND $p\,(g, h)\: \forall p \in F$}
+			\IF {$g \not\leq h$ \AND $\forall p \in F \; p\,(g, h)$}
 			\RETURN \FALSE
 			\ENDIF
 			\ENDFOR
