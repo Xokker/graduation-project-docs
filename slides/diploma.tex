@@ -41,6 +41,8 @@
 \renewcommand{\algorithmicprint}{\textbf{output}}
 \renewcommand{\algorithmiccomment}[1]{\hspace*{\fill}\{#1\}}
 
+\usepackage{appendixnumberbeamer}
+
 \algsetup{indent=2em}
 
 \usepackage{amsthm}
@@ -158,7 +160,14 @@
 	\end{frame}
 	
 	\begin{frame}
-		Интуитивное описание метода 
+		\frametitle{Описание алгоритма выявления предпочтений}
+		\framesubtitle{\enquote{при прочих равных}}
+		
+		\begin{itemize}
+			\item На основе имеющихся в контексте попарных предпочтений алгоритм выводит правила вида ``внедорожники \textbf{лучше} белых миниванов \textbf{при условии}, что у них совпадает цвет интерьера''
+			\item При сравнении двух новых объектов алгоритм пытается найти правило, под которое бы попадали эти объекты
+		\end{itemize}
+		
 	\end{frame}
 	
 	\begin{frame}
@@ -173,8 +182,42 @@
 	\end{frame}
 	
 	\begin{frame}
-		%\frametitle{Проведение экспериментов}
-		проведение экспериментов
+		\frametitle{Пример кросс-валидации}
+		\framesubtitle{для предпочтений одного пользователя}
+		\begin{center}
+			\includegraphics[width=50mm]{./images/cross-validation.png}
+		\end{center}
+		
+		Объект $x$ попарно сравнивается с объектами $o_1, o_2, o_3, o_5, \dots, o_{10}$. Если алгоритм утверждает $x < o_i$, хотя на самом деле $x > o_i$, начисляется один балл штрафа. Если алгоритм с одинаковой степенью уверенности утверждает и $x < o_i$, и  $x > o_i$, начисляется 0.5 баллов штрафа.\\
+		\vspace{0.5em}
+		Для каждого $x$ максимальный штраф = 9 (при кол-ве объектов = 10). Таким образом, $1 - \frac{\text{средний~штраф}}{9}$ является показателем ``правильности'' алгоритма.
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]
+		\frametitle{Проведение экспериментов}
+		\framesubtitle{на реальных наборах данных}
+		
+		Вычисление показателя ``правильности'' алгоритма:
+		\begin{itemize}
+			\item По предпочтениям каждого пользователя (отдельно) проводится эксперимент с помощью кросс-валидации:
+			\begin{enumerate}
+				\item Из списка предпочтений удаляется один объект
+				\item Он попарно сравнивается с оставшимися объектами
+				\item В случае неверного ответа алгоритма начисляется ``штраф''
+				\item Шаги 1-3 выполняются для всех объектов
+				\item Вычисляется средний показатель штрафа, он нормируется 
+			\end{enumerate}
+			\item По полученным для каждого пользователя результатам строиться статистика
+		\end{itemize}
+		
+		\framebreak
+		
+		Алгоритмы, участвующие в сравнении:
+		\begin{itemize}
+			\item \emph{C4.5} – классифицирующее дерево \cite{Quinlan:1993}
+			\item \emph{Наивный байесовский классификатор} – простой статистический классификатор, основанный на теореме Байеса \cite{Stigler:1983}
+			\item Способ поиска зависимостей между переменными \cite[с.~111-123]{WekaManual}
+		\end{itemize}
 	\end{frame}
 	
 	\begin{frame}
@@ -273,6 +316,11 @@
 		
 		\vspace{1em}
 		\emph{Решение}: использовать не только отношения равенства при сравнении признаков, но и другие бинарные отношения.
+		
+		\pause
+		
+		\vspace{1em}
+		Таким образом, алгоритм выявления предпочтений ищет не совпадающие признаки у объектов, а пары признаков, для которых выполняется какое-то из бинарных отношений.
 	\end{frame}
 	
 	\begin{frame}
@@ -306,7 +354,7 @@
 			\item Реализован базовый алгоритм выявления предпочтений «при прочих равных»
 			\item Проведена апробация алгоритма на двух реальных наборах данных: cars dataset \cite{dataset:Abbasnejad:2013}, sushi dataset \cite{Kamishima:2003} 
 			\item Проведено сравнение работы базового алгоритма с другими методами машинного обучения
-			\item Разработано 3 модификации алгоритма, повышающие качество работы базового алгоритма (подумать)
+			\item Разработано 3 модификации, повышающие качество работы алгоритма
 			\item Экспериментально обоснована состоятельность подхода, лежащего в основе базовой версии алгоритма и показана  эффективность его (алгоритма) модификаций
 		\end{itemize}
 		\pause
@@ -315,16 +363,58 @@
 		\end{itemize}
 	\end{frame}
 		
+	\begin{frame}[allowframebreaks]
+		\frametitle{Список использованных источников}
+		\bibliographystyle{apalike}
+		\bibliography{bibliography}
+	\end{frame}
+	
 	\begin{frame}[plain,c]
 		\begin{center}
 			\Huge Спасибо за внимание!
 		\end{center}
 	\end{frame}
-
+		
+	\appendix
+	
+	\begin{frame}
+		\frametitle{Подсчет правильности}
+		\framesubtitle{формально}
+		
+		Штраф для данного $x$ считается по формуле:
+		$$|\{(x,y)\:|\: x <^* y, y < x\}| + 0.5\cdot|\{(x,y)\: |\: x <^* y, x \nless y, y \nless x \}|$$
+		по всем $y \in O \setminus \{x\}$ \\
+		где $O$ – множество всех объектов; \\
+		$x <^* y$ означает, что в действительности $y$ лучше $x$ (согласно ответам респондента); \\
+		$x < y$ означает предсказание  алгоритма ``$x$ хуже $y$''.
+	\end{frame}
+	
 	\begin{frame}[allowframebreaks]
-		\frametitle{Список использованных источников}
-		\bibliographystyle{apalike}
-		\bibliography{bibliography}
+		\frametitle{Формальное описание алгоритма}
+		\framesubtitle{базовая версия алгоритма}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/algo1.png}
+		\end{center}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/algo2.png}
+		\end{center}
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]
+		\frametitle{Формальное описание модификации 1}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/algo5.png}
+		\end{center}
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]
+		\frametitle{Формальное описание модификации 2}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/algo6.png}
+		\end{center}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/algo7.png}
+		\end{center}
 	\end{frame}
 	
 	%%\setcounter{page}{2}
