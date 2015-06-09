@@ -1,4 +1,7 @@
-\documentclass[xcolor=table]{beamer}
+\documentclass[xcolor=table,handout]{beamer}
+
+%\usepackage{pgfpages}
+%\pgfpagesuselayout{4 on 1}[a4paper,border shrink=5mm,landscape]
 
 \usetheme{Warsaw}
 
@@ -207,7 +210,7 @@
 				\item Шаги 1-3 выполняются для всех объектов
 				\item Вычисляется средний показатель штрафа, он нормируется 
 			\end{enumerate}
-			\item По полученным для каждого пользователя результатам строиться статистика
+			\item По полученным для каждого пользователя результатам строится статистика
 		\end{itemize}
 		
 		\framebreak
@@ -216,7 +219,7 @@
 		\begin{itemize}
 			\item \emph{C4.5} – классифицирующее дерево \cite{Quinlan:1993}
 			\item \emph{Наивный байесовский классификатор} – простой статистический классификатор, основанный на теореме Байеса \cite{Stigler:1983}
-			\item Способ поиска зависимостей между переменными \cite[с.~111-123]{WekaManual}
+			\item \emph{Байесовская сеть} – способ поиска зависимостей между переменными \cite[с.~111-123]{WekaManual}
 		\end{itemize}
 	\end{frame}
 	
@@ -387,6 +390,16 @@
 		где $O$ – множество всех объектов; \\
 		$x <^* y$ означает, что в действительности $y$ лучше $x$ (согласно ответам респондента); \\
 		$x < y$ означает предсказание  алгоритма ``$x$ хуже $y$''.
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]
+		\frametitle{Основные понятия}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/basics1.png}
+		\end{center}
+		\begin{center}
+			\includegraphics[width=110mm]{./images/basics2.png}
+		\end{center}
 	\end{frame}
 	
 	\begin{frame}[allowframebreaks]
