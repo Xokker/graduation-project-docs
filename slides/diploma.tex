@@ -91,6 +91,7 @@
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{footline}[frame number]
 \setbeamertemplate{itemize items}[default]
+\setbeamertemplate{enumerate items}[default]
 
 \title[Выявление предпочтений \enquote{при прочих равных}] % (optional, only for long titles)
 {Экспериментальное исследование и модификация алгоритма выявления предпочтений \enquote{при прочих равных}}
@@ -145,10 +146,147 @@
 	\end{frame}
 	
 	\begin{frame}
+		\frametitle{Пример контекста}
 		\begin{center}
-		\includegraphics[width=85mm]{./images/context.png}
+		\includegraphics[width=80mm]{./images/context.png}
 		\end{center}
-		текст тут
+		\vspace{-1.5ex}
+		 $c_1, \dotsc, c_5$ – объекты (в данном случае автомобили) \\
+		 ``миниван'', ``внедорожник'', \dots, ``темный интерьер'' – признаки \\
+		 \vspace{1ex}
+		 справа – граф предпочтений: $c_5$ предпочтительнее $c_1$; $c_2$ и $c_3$ несравнимы
+	\end{frame}
+	
+	\begin{frame}
+		Интуитивное описание метода 
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Наборы данных}
+		\begin{enumerate}
+			\item \emph{Набор данных о предпочтениях в автомобилях}: 60 человек указывали свои предпочтения, выбирая из 10 автомобилей \cite{dataset:Abbasnejad:2013} \\
+			\url{http://users.cecs.anu.edu.au/~u4940058/CarPreferences.html}
+			\vspace{1em}
+			\item \emph{Набор данных о предпочтениях в суши}: 5000 человек ранжировали 10 суши \cite{Kamishima:2003}
+			\url{http://www.kamishima.net/sushi/}
+		\end{enumerate}
+	\end{frame}
+	
+	\begin{frame}
+		%\frametitle{Проведение экспериментов}
+		проведение экспериментов
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Первый эксперимент}
+		\framesubtitle{над базовой версией алгоритма}
+		\begin{center}
+			\begin{tabular}{|l|ll|}
+				\hline
+				Алгоритм             & 1-out & 2-out \\ \hline
+				\enquote{при прочих равных}      & $59.09 \pm 3.08$ & $52.94 \pm 0.97$ \\
+				C4.5                 & $79.91 \pm 7.29$ & $71.61 \pm 8.97$ \\
+				Наивный байес. клас. & $83.76 \pm 7.2$ & $82.69 \pm 9.68$ \\ \hline
+			\end{tabular}
+		\end{center}
+		
+		\vspace{1.5em}
+		Алгоритм выявления предпочтений \enquote{при прочих равных} для большинства пар $(x,y)$ находит аргументы и за $x \leq y$, и за $y \leq x$.
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Пример}
+		\begin{center}
+			Сравним два автомобиля:
+		\end{center}
+		\begin{columns}[c] 
+			\column{.5\textwidth} 
+			Красный внедорожник с темным интерьером
+	    	\column{.5\textwidth}
+	    	Красный миниван со светлым интерьером
+		\end{columns}
+		\begin{center}
+			\vspace{2em}
+			\emph{лучше} потому что \\внедорожники лучше миниванов \\
+			\vspace{2em}
+			\emph{хуже} потому что \\темный интерьер хуже светлого 
+		\end{center}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Модификация 1}
+		\framesubtitle{подсчет ``подтверждающих'' пар объектов}
+		Считаем количество пар объектов обучающей выборки, которые ``подтверждают'' предпочтение. 
+		\vspace{1.4em}
+		\begin{columns}[c] 
+			\column{.5\textwidth} 
+			Красный внедорожник с темным интерьером
+			\column{.5\textwidth}
+			Красный миниван со светлым интерьером
+		\end{columns}
+		\begin{center}
+			\vspace{0.5em}
+			\emph{лучше}: \\ 
+			2 пары ``внедорожники лучше миниванов'' \\
+			2 пары ``внедорожники лучше светлого интерьера при одинаковом экстерьере'' \\
+			\vspace{1em}
+			\emph{хуже}: \\
+			3 пары ``темный интерьер хуже светлого''
+		\end{center}
+		
+		\vspace{1.5em}
+		Таким образом, красный внедорожник с темным интерьером {\color{green} лучше} красного минивана со светлым интерьером (4 против 3).
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Модификация 2}
+		\framesubtitle{поиск наиболе ``сильных'' предпочтений}
+		Ищем такое предпочтение, которое подкреплено максимальным количеством ``подтверждающих'' пар.
+		\vspace{1.4em}
+		\begin{columns}[c] 
+			\column{.5\textwidth} 
+			Красный внедорожник с темным интерьером
+			\column{.5\textwidth}
+			Красный миниван со светлым интерьером
+		\end{columns}
+		\begin{center}
+			\vspace{0.5em}
+			\emph{лучше}: \\ 
+			2 пары ``внедорожники лучше миниванов'' \\
+			2 пары ``внедорожники лучше светлого интерьера при одинаковом экстерьере'' \\
+			\vspace{1em}
+			\emph{хуже}: \\
+			3 пары ``темный интерьер хуже светлого''
+		\end{center}
+		
+		\vspace{1.5em}
+		Таким образом, красный внедорожник с темным интерьером {\color{red} хуже} красного минивана со светлым интерьером (2 против 3).
+	\end{frame}
+	
+	\begin{frame}
+		Модификация: бинарные отношения	
+	\end{frame}
+	
+	
+	\begin{frame}
+		\frametitle{Результаты}
+		\begin{itemize}
+			\item Реализован базовый алгоритм выявления предпочтений «при прочих равных»
+			\item Проведена апробация алгоритма на двух реальных наборах данных: cars dataset \cite{dataset:Abbasnejad:2013}, sushi dataset \cite{Kamishima:2003} 
+			\item Проведено сравнение работы базового алгоритма с другими методами машинного обучения
+			\item Разработано 3 модификации алгоритма, повышающие качество работы базового алгоритма (подумать)
+			\item Экспериментально обоснована состоятельность подхода, лежащего в основе базовой версии алгоритма и показана  эффективность его (алгоритма) модификаций
+		\end{itemize}
+		\pause
+		\begin{itemize}
+			\item {\color{gray} Написан инструментарий для сравнения алгоритмов: классы для проведения экспериментов, утилита с GUI для запуска экспериментов}
+		\end{itemize}
+	\end{frame}
+		
+	\begin{frame}[plain,c]
+		\begin{center}
+			\Huge Спасибо за внимание!
+		\end{center}
 	\end{frame}
 
 	\begin{frame}[allowframebreaks]
