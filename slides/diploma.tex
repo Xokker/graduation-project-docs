@@ -1,0 +1,173 @@
+\documentclass{beamer}
+
+\usetheme{Warsaw}
+
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{amssymb,amsfonts,amsmath,mathtext,float}  
+
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.} % Заменяем библиографию с квадратных скобок на точку:
+\makeatother
+
+\usepackage{csquotes}
+
+%\usepackage{bibunits}  
+\setbeamertemplate{bibliography item}[text]
+%\defaultbibliography{plain}
+%\defaultbibliographystyle{IEEEtran}
+
+\usepackage{caption}
+\DeclareCaptionLabelSeparator{par}{\par}
+\newcommand\tablecaption[1]{
+	\captionsetup{labelsep=par,justification=raggedleft}
+	\caption{#1}
+}
+
+\usepackage{bm}
+
+\usepackage{multirow}
+
+\usepackage{rotating}
+
+\usepackage[noend]{algorithmic}
+\usepackage{algorithm}
+
+\newcommand{\algname}[1]{\textsc{#1}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand{\algorithmicprint}{\textbf{output}}
+\renewcommand{\algorithmiccomment}[1]{\hspace*{\fill}\{#1\}}
+
+\algsetup{indent=2em}
+
+\usepackage{amsthm}
+\theoremstyle{definition}
+%\newtheorem{definition}{Определение}
+
+\addto\captionsrussian{\renewcommand{\bibname}{Список использованных источников}}
+
+
+\def\cp#1{\preccurlyeq_{#1}}
+
+\def\PP{\mathbb{P}}
+\def\UCPP{\context^\PP_{\sim}}
+\def\mpref{\leq}
+\def\cprime{^{\sim}}
+
+\def\ABC{A \cp{C} B}
+\def\DEF{D \cp{F} E}
+
+\def\minivan{\textrm{minivan}}
+\def\suv{\textrm{SUV}}
+\def\red{\textrm{red}}
+\def\white{\textrm{white}}
+\def\bright{\textrm{bright}}
+\def\price{\textrm{price}}
+\def\dark{\textrm{dark}}
+
+\def\Z{\mathcal{Z}}
+
+\makeatletter
+\def\@makechapterhead#1{%
+	\vspace*{50\p@}%
+	{\parindent \z@ \raggedright \normalfont
+		\interlinepenalty\@M
+		\Huge\bfseries  \thechapter.\enskip #1\par\nobreak
+		\vskip 40\p@
+	}}
+\makeatother
+	
+
+\makeatletter
+\renewcommand{\ALG@name}{Алгоритм}
+\renewcommand{\listalgorithmname}{Список алгоритмов}
+\makeatother
+
+%\usepackage[unicode]{hyperref}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{itemize items}[default]
+
+\title[Выявление предпочтений \enquote{при прочих равных}] % (optional, only for long titles)
+{Экспериментальное исследование и модификация алгоритма выявления предпочтений \enquote{при прочих равных}}
+\author[Садыков~Э.Р.]{Студент: Садыков~Эрнест~Рашидович, 401ПИ \\ 
+	\vspace{1em}
+	Научный руководитель: Объедков Сергей Александрович, к.т.н., доцент департамента анализа данных и искусственного интеллекта факультета компьютерных наук
+}
+\institute
+{
+	Национальный исследовательский университет\\
+	Высшая школа экономики
+}
+\date{Москва, 2015}
+
+\begin{document}
+	\frame{\titlepage}
+	\begin{frame}
+		\frametitle{Актуальность проблемы}
+		Применения рекомендательных алгоритмов:
+		\begin{itemize}
+			\item Интернет-магазины (amazon, ozon)
+			\item Социальные сети (reddit, digg)
+			\item Специализированные рекомендательные системы (last.fm, Имхонет)
+		\end{itemize}
+		
+		\pause
+		
+		\vspace{1.5em}
+		Рекомендации удерживают внимание пользователя на сайте
+
+		\pause 
+		
+		\vspace{1.5em}
+		В основе рекомендательных систем – алгоритмы выявления предпочтений
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Цель и задачи}
+		\emph{Цель}: реализовать и протестировать алгоритм обучения предпочтениям «при прочих равных» для проверки его применимости к реальным данным; разработать и протестировать модификации алгоритма, улучшающие его характеристики
+
+		\pause
+		\vspace{1em}
+		
+		\emph{Задачи}:
+		\begin{itemize}
+			\item Реализовать базовый алгоритм, описанный в \cite{Obiedkov:2013}
+			\item Провести апробацию алгоритма на реальных данных 
+			\item Провести сравнение работы базового алгоритма с другими методами машинного обучения
+			\item Разработать модификации алгоритма, повышающие качество работы алгоритма
+			\item Сравнить результаты работы модификаций алгоритма с другими методами машинного обучения
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\begin{center}
+		\includegraphics[width=85mm]{./images/context.png}
+		\end{center}
+		текст тут
+	\end{frame}
+
+	\begin{frame}[allowframebreaks]
+		\frametitle{Список использованных источников}
+		\bibliographystyle{apalike}
+		\bibliography{bibliography}
+	\end{frame}
+	
+	%%\setcounter{page}{2}
+	%\tableofcontents 
+	%\input{abstract}
+	%%\input{definitions}
+	%\input{introduction}
+	%\input{literature}
+	%\input{theory}
+	%\input{experiments}
+	%\input{ending}
+	%\bibliography{bibliography} 
+	%\addcontentsline{toc}{chapter}{Список использованных источников}
+	%\input{appendix}
+	%\bibliographystyle{ieeetr}
+\end{document}
